@@ -15,6 +15,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+require("vim-options")
+require("lazy").setup("plugins")
 
 -- open neotree on init
 vim.api.nvim_create_autocmd("VimEnter", {
@@ -22,6 +24,3 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.cmd("Neotree toggle")
   end,
 })
-
-require("vim-options")
-require("lazy").setup("plugins")

@@ -14,5 +14,9 @@ vim.wo.number = true
 -- use system clipboardd
 vim.opt.clipboard = "unnamedplus"
 
+-- Dedent in Insert Mode (instead of ctrl d or ctrl t)
+vim.keymap.set("i", "<S-Tab>", "<C-d>", { desc = "Dedent line" })
 
-
+-- in Visual Mode for blocks of code
+vim.keymap.set("v", "<S-Tab>", "<", { desc = "Dedent selection" })
+vim.keymap.set("v", "<Tab>", ">", { desc = "Indent selection" })

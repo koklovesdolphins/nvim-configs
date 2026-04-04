@@ -45,7 +45,6 @@ return {
           }
         }
       })
-      -- vim.keymap.set('n', '<leader>e', ':Neotree filesystem reveal left<CR>', {desc = 'Open file tree'})
       vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle file tree' })
       -- a - new file/folder
       -- r - rename
