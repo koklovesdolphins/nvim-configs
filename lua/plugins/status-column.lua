@@ -31,25 +31,29 @@ return {
       },
     },
     init = function()
-      vim.diagnostic.config({
-        virtual_text = false,
-        signs = true,
-        underline = true,
-        update_in_insert = false, -- don't show while typing
-        severity_sort = true,
-      })
-
-      -- Custom icons in the status column
-      local signs = { 
+      -- custom icons in status-column
+      local icons = {
         Error = " ", -- Circle with an X
         Warn  = " ", -- Triangle with an !
         Hint  = "󰌵 ", -- Lightbulb
         Info  = " "  -- Circle with an i
       }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+
+      vim.diagnostic.config({
+        virtual_text = false,
+        -- signs = true,
+        underline = true,
+        update_in_insert = false, -- don't show while typing
+        severity_sort = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = icons.Error,
+            [vim.diagnostic.severity.WARN]  = icons.Warn,
+            [vim.diagnostic.severity.HINT]  = icons.Hint,
+            [vim.diagnostic.severity.INFO]  = icons.Info,
+          },
+        },
+      })
     end,
   },
   -- open or collapse blocks using tree-sitter
