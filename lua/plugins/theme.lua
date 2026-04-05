@@ -23,6 +23,29 @@ return {
       })
     end,
   },
+  -- show indent
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      scope = {
+        enabled = true,
+        show_start = false,
+        show_end = false,
+      },
+    },
+    config = function(_, opts)
+      -- This hook ensures the highlight is applied even if you change themes
+      local hooks = require("ibl.hooks")
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        -- Change these hex codes to match your background for lower contrast
+        vim.api.nvim_set_hl(0, "IblIndent", { fg = "#1e2030" })
+        vim.api.nvim_set_hl(0, "IblScope", { fg = "#4a506a" })
+      end)
+
+      require("ibl").setup(opts)
+    end,
+  },
   -- show commandline
   {
 		"folke/noice.nvim",

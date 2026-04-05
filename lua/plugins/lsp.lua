@@ -1,7 +1,7 @@
 local ensure_installed = {
   "lua_ls",
   "gopls",
-  "pyright",
+  "pyright", "ruff",
   "ts_ls", "html", "cssls",
   "terraformls", "dockerls", "bashls"
 }
