@@ -19,7 +19,7 @@ return {
 			require("mini.pairs").setup()
 		end,
 	},
-	-- highlight word under cursor
+	-- highlight word under cursor (maybe not that usefule with incremental treesitter)
 	--{
 	--	"nvim-mini/mini.cursorword",
 	--	config = function()
