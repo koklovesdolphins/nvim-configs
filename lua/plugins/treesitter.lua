@@ -1,38 +1,64 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  branch = "master",
-  lazy = false,
-  opts = {
-    ensure_installed = {
-      "lua", "vim", "vimdoc", "query",
-      "go", "gomod", "gosum", "gowork",
-      "python",
-      "html", "javascript", "typescript", "tsx", "css",
-      "bash", "make",
-      "markdown", "markdown_inline",
-      "gitcommit", "dockerfile", "hcl", "terraform",
-      "xml", "json", "toml", "yaml", "sql", "regex",
-    },
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = false,
-    },
-    indent = { enable = true },
-    -- nicest helper to select
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "v",
-        node_incremental = "v",
-        scope_incremental = false,
-        node_decremental = "<bs>",
-      },
-    },
-  },
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-  end,
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	branch = "master",
+	lazy = false,
+	opts = {
+		ensure_installed = {
+			-- nvim
+			"lua",
+			"vim",
+			"vimdoc",
+			"query",
+			-- code
+			"go",
+			"gomod",
+			"gosum",
+			"gowork",
+			"python",
+			-- webdev
+			"html",
+			"javascript",
+			"typescript",
+			"tsx",
+			"css",
+			-- shell
+			"bash",
+			"make",
+			-- markdown
+			"markdown",
+			"markdown_inline",
+			-- infra
+			"gitcommit",
+			"dockerfile",
+			"hcl",
+			"terraform",
+			"xml",
+			"json",
+			"toml",
+			"yaml",
+			"sql",
+			"regex",
+		},
+		highlight = {
+			enable = true,
+			additional_vim_regex_highlighting = false,
+		},
+		indent = { enable = true },
+		-- nicest helper to select
+		incremental_selection = {
+			enable = true,
+			keymaps = {
+				init_selection = "b",
+				node_incremental = "b",
+				scope_incremental = false,
+				node_decremental = "<bs>",
+			},
+		},
+	},
+	config = function(_, opts)
+		require("nvim-treesitter.configs").setup(opts)
+	end,
 }
 
 -- using the main one, but needs neovim 0.12.0
