@@ -57,9 +57,10 @@ return {
 		-- . - change root to enter
 		-- shift + h - show hidden
 		-- ctrl w + arrow to move between window (can use vim-tmux-navigator)
-		-- s - split right
-		-- S - split below
+		-- s - split right window
+		-- S - split below window
 		-- ctrl w + q - to close split
-		-- t - new tab (no need) just use windows
+		-- t - new tab
+		-- gt - toggle between tabs
 	end,
 }
