@@ -9,7 +9,7 @@ vim.g.mapleader = " "
 
 -- show line numbers
 vim.wo.number = true
--- vim.wo.relativenumber = true
+vim.opt.relativenumber = false
 
 -- use system clipboardd
 vim.opt.clipboard = "unnamedplus"

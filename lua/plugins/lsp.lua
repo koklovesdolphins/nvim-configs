@@ -12,6 +12,19 @@ local ensure_installed = {
 }
 return {
 	{
+		"Saghen/blink.cmp",
+		version = "v1.*",
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+		opts = {
+			keymap = { preset = "default" },
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+		},
+	},
+	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
@@ -45,6 +58,7 @@ return {
 			})
 			vim.lsp.enable(vim.list_extend({ "lua_ls" }, servers))
 
+			-- TODO see what are these
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local opts = { buffer = args.buf }

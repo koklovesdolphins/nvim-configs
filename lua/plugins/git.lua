@@ -42,36 +42,36 @@ return {
 		},
 	},
 
-	-- 2. Diffview (Deep review / History)
-	{
-		"sindrets/diffview.nvim",
-		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-		keys = {
-			{
-				"<leader>gd",
-				function()
-					local view = require("diffview.lib").get_current_view()
-					if view then
-						vim.cmd("DiffviewClose")
-					else
-						vim.cmd("DiffviewOpen")
-					end
-				end,
-				desc = "Toggle Diffview",
-			},
-			{ "<leader>gdh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (Current)" },
-			{ "<leader>gdH", "<cmd>DiffviewFileHistory<cr>", desc = "File History (Repo)" },
-		},
-	},
+	-- 2. Diffview (Deep review / History) FzfLua git_status feels better
+	-- {
+	-- 	"sindrets/diffview.nvim",
+	-- 	cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>gd",
+	-- 			function()
+	-- 				local view = require("diffview.lib").get_current_view()
+	-- 				if view then
+	-- 					vim.cmd("DiffviewClose")
+	-- 				else
+	-- 					vim.cmd("DiffviewOpen")
+	-- 				end
+	-- 			end,
+	-- 			desc = "Toggle Diffview",
+	-- 		},
+	-- 		{ "<leader>gdh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (Current)" },
+	-- 		{ "<leader>gdH", "<cmd>DiffviewFileHistory<cr>", desc = "File History (Repo)" },
+	-- 	},
+	-- },
 
-	-- 3. Neogit
+	-- 3. Neogit (Maybe move to fugitive?)
 	{
 		"NeogitOrg/neogit",
 		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
 		opts = { integrations = { diffview = true } },
 		keys = {
 			{
-				"<leader>gg",
+				"<leader>ngg",
 				function()
 					local neogit = require("neogit")
 					local is_open = false

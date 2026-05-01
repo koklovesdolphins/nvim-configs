@@ -55,20 +55,13 @@ return {
 		"kevinhwang91/nvim-ufo",
 		dependencies = "kevinhwang91/promise-async",
 		config = function()
-			vim.o.foldcolumn = "1" -- show column
+			vim.o.foldcolumn = "0" -- just hide column (the relative number issue too problematic)
 			vim.o.foldlevel = 99 -- UFO needs a higher foldlevel to start open
 			vim.o.foldlevelstart = 99 -- UFO needs a higher foldlevel to start open
 			vim.o.foldenable = true
 
-			vim.o.relativenumber = false
-			vim.o.foldcolumn = "auto:1"
-
 			require("ufo").setup({
 				provider_selector = function(bufnr, filetype, buftype)
-					-- if filetype == 'markdown' then
-					--   return { 'treesitter', 'indent' }
-					-- end
-					-- return { 'lsp', 'indent' }
 					return { "treesitter", "indent" } -- tree-sitter should be more reliable
 				end,
 			})
@@ -76,20 +69,25 @@ return {
 	},
 	-- shows status column
 	-- {
-	--   "luukvbaal/statuscol.nvim",
-	--   config = function()
-	--     local builtin = require("statuscol.builtin")
-	--     require("statuscol").setup({
-	--       relculright = true,
-	--       segments = {
-	--         -- Fold Column (UFO)
-	--         { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-	--         -- Sign Column (Git & Diagnostics)
-	--         { sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = true }, click = "v:lua.ScSa" },
-	--         -- Line Numbers
-	--         { text = { builtin.lnumfunc }, click = "v:lua.ScLa" },
-	--       },
-	--     })
-	--   end,
+	-- 	"luukvbaal/statuscol.nvim",
+	-- 	config = function()
+	-- 		local builtin = require("statuscol.builtin")
+	-- 		require("statuscol").setup({
+	-- 			relculright = true,
+	-- 			setopt = true,
+	-- 			segments = {
+	-- 				-- Fold Column (UFO)
+	-- 				{ text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+	-- 				-- Sign Column (Git & Diagnostics)
+	-- 				{ sign = { "%s" }, click = "v:lua.ScSa" },
+	-- 				-- Line Numbers
+	-- 				{
+	-- 					text = { builtin.lnumfunc, " " },
+	-- 					condition = { true, builtin.not_empty },
+	-- 					click = "v:lua.ScLa",
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
 	-- },
 }

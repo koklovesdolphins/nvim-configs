@@ -17,6 +17,23 @@ return {
 				options = {
 					theme = "wombat",
 				},
+				sections = {
+					lualine_c = {
+						{
+							"filename",
+							file_status = true, -- Displays file status (readonly, modified)
+							newfile_status = false, -- Display new file status
+							path = 1, -- 0: Just filename, 1: Relative path, 2: Absolute path
+							shorting_target = 40, -- Shortens path if window is small
+							symbols = {
+								modified = "[+]",
+								readonly = "[-]",
+								unnamed = "[No Name]",
+								newfile = "[New]",
+							},
+						},
+					},
+				},
 			})
 		end,
 	},
