@@ -19,6 +19,12 @@ return {
 		},
 		opts = {
 			keymap = { preset = "default" },
+			completion = {
+				menu = {
+					-- Delay the completion menu from popping up (in milliseconds)
+					auto_show_delay_ms = 1000,
+				},
+			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
 			},
