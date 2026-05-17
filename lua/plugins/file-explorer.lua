@@ -64,7 +64,7 @@ return {
 						local neo_tree_win = vim.api.nvim_get_current_win()
 						local node = state.tree:get_node()
 						state.commands["open"](state)
-						if node.type == "file" then
+						if node.type == "file" and vim.api.nvim_win_is_valid(neo_tree_win) then
 							vim.api.nvim_set_current_win(neo_tree_win)
 						end
 					end,

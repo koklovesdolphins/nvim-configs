@@ -7,6 +7,7 @@ return {
 		config = function()
 			require("github-theme").setup({})
 			vim.cmd("colorscheme github_dark_default")
+			vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#e5c07b" })
 		end,
 	},
 	-- show bottom line

@@ -7,6 +7,8 @@ vim.opt.shiftwidth = 2 -- Number of spaces used for autoindent
 vim.g.have_nerd_font = true
 vim.g.mapleader = " "
 
+vim.opt.ttimeoutlen = 10 -- prevent lag on arrow keys in insert mode
+
 -- show line numbers
 vim.wo.number = true
 vim.opt.relativenumber = false
@@ -23,7 +25,7 @@ vim.keymap.set("v", "<Tab>", ">", { desc = "Indent selection" })
 
 -- MISC shortcuts
 vim.keymap.set("n", "<leader>qt", "<cmd>w<CR>:tabclose<CR>", { desc = "Save and close tab" })
-vim.keymap.set({ "n", "i" }, "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
+vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>qs", "<cmd>w<CR><C-w>c", { desc = "Save and close split" })
 
 -- allows backspace, space, left, right
@@ -33,3 +35,18 @@ vim.opt.whichwrap = "b,s,<,>,[,]"
 -- open splits to the right and below
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+-- remap Ctrl+Z to undo (prevents terminal suspend)
+vim.keymap.set("n", "<C-z>", "u", { desc = "Undo" })
+vim.keymap.set("i", "<C-z>", "<C-o>u", { desc = "Undo" })
+
+-- undo
+vim.opt.undofile = true -- persist undo history across file closes
+vim.keymap.set("i", ",", ",<C-g>u")
+vim.keymap.set("i", ".", ".<C-g>u")
+vim.keymap.set("i", "!", "!<C-g>u")
+vim.keymap.set("i", "?", "?<C-g>u")
+vim.keymap.set("i", "<CR>", "<CR><C-g>u") -- add undo breaks during enter
+
+-- some helpers
+-- :messages - to see output/error messages

@@ -1,6 +1,7 @@
 return {
 	-- Surround text objects easily
-	-- ds, cs, ys
+	-- ds, cs, ys (add)
+  -- ysiw - surround word with
 	{
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -19,7 +20,14 @@ return {
 			require("mini.pairs").setup()
 		end,
 	},
-	-- highlight word under cursor (maybe not that usefule with incremental treesitter)
+	-- mutli cursor
+  -- ctrl + v for visual block mode
+  -- Caps I (add) - or visual block d (delete)
+  -- type
+  -- esc --- it should then insert on all lines
+
+
+  -- highlight word under cursor (maybe not that usefule with incremental treesitter)
 	--{
 	--	"nvim-mini/mini.cursorword",
 	--	config = function()

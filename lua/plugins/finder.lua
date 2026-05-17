@@ -2,7 +2,9 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-mini/mini.icons" },
-		opts = {},
+		opts = {
+			-- fzf_bin = 'builtin',
+		},
 		keys = {
 			-- help
 			{ "<leader>?", "<CMD>FzfLua keymaps<CR>", desc = "Key Maps" },
@@ -11,8 +13,24 @@ return {
 			{ "<leader>fr", "<CMD>FzfLua resume<CR>", desc = "Resume last picker" },
 
 			-- search
-			{ "<leader>/", "<CMD>FzfLua grep_curbuf<CR>", desc = "Grep (Current Buffer)" }, -- default fuzzy
-			{ "<leader>f/", "<CMD>FzfLua live_grep<CR>", desc = "Grep (Current directory)" }, -- default regex
+			-- { "<leader>/", "<CMD>FzfLua grep_curbuf<CR>", desc = "Grep (Current Buffer)" }, -- default fuzzy
+			{
+				"<leader>/",
+				function()
+					require("fzf-lua").grep_curbuf({ fzf_opts = { ["--no-sort"] = "" } }) -- need --no-sort else fuzzy sorts occurance in file
+				end,
+				desc = "Grep (Current Buffer)",
+			},
+			{
+				"<leader>f/",
+				function()
+					require("fzf-lua").live_grep({
+						fzf_opts = { ["--no-sort"] = "" },
+						rg_opts = "--sort path --column --line-number --no-heading --color=always --smart-case",
+					})
+				end,
+				desc = "Grep (Current directory)",
+			},
 			{ "<leader>fw", "<CMD>FzfLua grep_cword<CR>", desc = "Grep word under cursor (Current directory)" },
 			{ "<leader>fv", "<CMD>FzfLua grep_visual<CR>", desc = "Grep Selection (Current directory)", mode = "v" },
 
