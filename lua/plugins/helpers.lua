@@ -13,13 +13,13 @@ return {
 		end,
 	},
 	-- Automatically add pair i.e. (), [], {}, etc.
-	{
-		"nvim-mini/mini.pairs",
-		version = "*",
-		config = function()
-			require("mini.pairs").setup()
-		end,
-	},
+	-- {
+	-- 	"nvim-mini/mini.pairs",
+	-- 	version = "*",
+	-- 	config = function()
+	-- 		require("mini.pairs").setup()
+	-- 	end,
+	-- },
 	-- mutli cursor
   -- ctrl + v for visual block mode
   -- Caps I (add) - or visual block d (delete)
