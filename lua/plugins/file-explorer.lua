@@ -20,6 +20,7 @@ return {
 				},
 				keymaps = {
 					["q"] = "actions.close",
+					["<Esc>"] = "actions.close",
 				},
 				float = {
 					padding = 2,
@@ -29,7 +30,16 @@ return {
 				},
 			})
 			require("oil-git-status").setup()
-			vim.keymap.set("n", "<leader>o", ":Oil --float<CR>", { desc = "Open Oil file explorer" })
+			vim.keymap.set("n", "<leader>o", function()
+				local oil = require("oil")
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "oil" then
+						oil.close()
+						return
+					end
+				end
+				oil.open_float()
+			end, { desc = "Toggle Oil file explorer" })
 		end,
 	},
 	{
@@ -43,6 +53,13 @@ return {
 		lazy = false,
 		config = function()
 			require("neo-tree").setup({
+				filesystem = {
+					filtered_items = {
+						visible = false,
+						hide_dotfiles = false,
+						hide_by_name = { ".git" },
+					},
+				},
 				commands = {
 					copy_path = function(state)
 						local node = state.tree:get_node()
