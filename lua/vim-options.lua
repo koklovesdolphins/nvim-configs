@@ -7,7 +7,8 @@ vim.opt.shiftwidth = 2 -- Number of spaces used for autoindent
 vim.g.have_nerd_font = true
 vim.g.mapleader = " "
 
-vim.opt.ttimeoutlen = 10 -- prevent lag on arrow keys in insert mode
+-- prevent lag on arrow keys in insert mode
+vim.opt.ttimeoutlen = 10
 
 -- show line numbers
 vim.wo.number = true
@@ -31,6 +32,14 @@ vim.keymap.set("n", "<leader>qs", "<cmd>w<CR><C-w>c", { desc = "Save and close s
 -- allows backspace, space, left, right
 -- to navigate in normal/visual/insert/replace mode
 vim.opt.whichwrap = "b,s,<,>,[,]"
+
+-- Move cursor down/up by 20 lines without scrolling the screen
+vim.keymap.set('n', '<C-d>', '20j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-u>', '20k', { noremap = true, silent = true })
+
+-- Scroll the screen down/up by 5 lines
+vim.keymap.set('n', '<C-e>', '5<C-e>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-y>', '5<C-y>', { noremap = true, silent = true })
 
 -- open splits to the right and below
 vim.opt.splitright = true
