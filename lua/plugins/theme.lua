@@ -1,13 +1,33 @@
 return {
+	-- {
+	-- 	"projekt0n/github-nvim-theme",
+	-- 	name = "github-theme",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("github-theme").setup({})
+	-- 		vim.cmd("colorscheme github_dark_default")
+	-- 		vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#e5c07b" })
+	-- 	end,
+	-- },
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("tokyonight").setup({
+	-- 		vim.cmd("colorscheme tokyonight-night")
+	-- 	end,
+	-- },
 	{
-		"projekt0n/github-nvim-theme",
-		name = "github-theme",
-		lazy = false, -- Load this during startup
-		priority = 1000, -- Load this before other plugins
+		"rebelot/kanagawa.nvim",
+		lazy = false,
+		priority = 1000,
 		config = function()
-			require("github-theme").setup({})
-			vim.cmd("colorscheme github_dark_default")
-			vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#e5c07b" })
+			require("kanagawa").setup({
+        transparent = true,
+			})
+			vim.cmd("colorscheme kanagawa-wave")
 		end,
 	},
 	-- show bottom line
