@@ -44,8 +44,8 @@ return {
 			{ "<leader>fc", "<CMD>FzfLua command_history<CR>", desc = "Neovim Command History" },
 			{ "<leader>:", "<CMD>FzfLua registers<CR>", desc = "Registers" }, -- clipboard, etc
 
-			-- git
-			{ "<leader>ggs", "<CMD>FzfLua git_status<CR>", desc = "Status" },
+		  -- git
+			{ "<leader>ggs", "<CMD>FzfLua git_status<CR>", desc = "Status" }, -- shows modified, stage and trackied files
 			{ "<leader>ggc", "<CMD>FzfLua git_commits<CR>", desc = "Commits" },
 			{ "<leader>ggh", "<CMD>FzfLua git_bcommits<CR>", desc = "File history" },
 

@@ -26,7 +26,6 @@ return {
   -- type
   -- esc --- it should then insert on all lines
 
-
   -- highlight word under cursor (maybe not that usefule with incremental treesitter)
 	--{
 	--	"nvim-mini/mini.cursorword",
