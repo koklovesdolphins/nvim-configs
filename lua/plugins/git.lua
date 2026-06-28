@@ -4,6 +4,22 @@ return {
 		"lewis6991/gitsigns.nvim",
 		opts = {
 			preview_config = { border = "rounded" },
+			signs = {
+				add          = { text = "▎" },
+				change       = { text = "▎" },
+				delete       = { text = "▸" },
+				topdelete    = { text = "▸" },
+				changedelete = { text = "▎" },
+				untracked    = { text = "▎" },
+			},
+			signs_staged_enable = true,
+			signs_staged = {
+				add          = { text = "▎" },
+				change       = { text = "▎" },
+				delete       = { text = "▸" },
+				topdelete    = { text = "▸" },
+				changedelete = { text = "▎" },
+			},
 			on_attach = function(bufnr)
 				local gs = require("gitsigns")
 				local function map(mode, l, r, desc)
@@ -64,7 +80,26 @@ return {
 	-- 	},
 	-- },
 
-	-- 3. Neogit (Maybe move to fugitive?)
+	-- 3. Scrollbar with git hunk markers (VSCode-style right-side overview)
+	{
+		"petertriho/nvim-scrollbar",
+		dependencies = { "lewis6991/gitsigns.nvim" },
+		event = "BufReadPost",
+		config = function()
+			require("scrollbar").setup({
+				show_in_active_only = true,
+				handle = { highlight = "Visual" },
+				marks = {
+					GitAdd    = { text = "▎" },
+					GitChange = { text = "▎" },
+					GitDelete = { text = "▸" },
+				},
+			})
+			require("scrollbar.handlers.gitsigns").setup()
+		end,
+	},
+
+	-- 4. Neogit (Maybe move to fugitive?)
 	{
 		"NeogitOrg/neogit",
 		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
