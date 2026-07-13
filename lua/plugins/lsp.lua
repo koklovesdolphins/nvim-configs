@@ -9,6 +9,7 @@ local ensure_installed = {
 	"terraformls",
 	"dockerls",
 	"bashls",
+	"yamlls",
 }
 return {
 	{
