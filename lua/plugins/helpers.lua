@@ -36,11 +36,24 @@ return {
 	-- split navigation in neotree (Alt+hjkl)
 	{
 		"christoomey/vim-tmux-navigator",
+		lazy = false,
+		init = function()
+			-- disable vim-tmux-navigator's own <C-hjkl>; vim-herdr-navigation's
+			-- editor/nvim.lua (below) replaces them so edge-crossing calls herdr
+			-- instead of tmux directly (herdr forwards ctrl+hjkl here when its
+			-- alt+hjkl binding detects a focused Vim/Neovim pane).
+			vim.g.tmux_navigator_no_mappings = 1
+		end,
 		config = function()
 			vim.keymap.set("n", "<M-h>", "<cmd>wincmd h<cr>")
 			vim.keymap.set("n", "<M-j>", "<cmd>wincmd j<cr>")
 			vim.keymap.set("n", "<M-k>", "<cmd>wincmd k<cr>")
 			vim.keymap.set("n", "<M-l>", "<cmd>wincmd l<cr>")
+
+			local plugin_root = vim.fn.glob("~/.config/herdr/plugins/github/vim-herdr-navigation-*", false, true)[1]
+			if plugin_root and plugin_root ~= "" then
+				dofile(plugin_root .. "/editor/nvim.lua")
+			end
 		end,
 	},
 	-- --help for keybindings

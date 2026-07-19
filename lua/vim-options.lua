@@ -17,6 +17,12 @@ vim.opt.relativenumber = false
 -- use system clipboardd
 vim.opt.clipboard = "unnamedplus"
 
+-- reload buffer automatically when the file changes on disk (e.g. AI agent writes)
+vim.opt.autoread = true
+
+-- lower from the 4000ms default so CursorHold (reload/gitsigns) fires promptly
+vim.opt.updatetime = 300
+
 -- Dedent in Insert Mode (instead of ctrl d or ctrl t)
 vim.keymap.set("i", "<S-Tab>", "<C-d>", { desc = "Dedent line" })
 
@@ -59,3 +65,16 @@ vim.keymap.set("i", "<CR>", "<CR><C-g>u") -- add undo breaks during enter
 
 -- some helpers
 -- :messages - to see output/error messages
+
+-- actively check for file changes on disk, since `autoread` alone is passive
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+	command = "checktime",
+})
+
+-- announce when a buffer got silently reloaded from disk
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+	command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+})
+
+-- manual reload-from-disk, in case you don't want to wait for the autocmd above
+vim.keymap.set("n", "<leader>rl", "<cmd>checktime<CR>", { desc = "Reload buffer from disk" })
