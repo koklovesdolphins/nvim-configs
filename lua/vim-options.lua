@@ -47,6 +47,10 @@ vim.keymap.set('n', '<C-u>', '20k', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-e>', '5<C-e>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-y>', '5<C-y>', { noremap = true, silent = true })
 
+-- keep search matches centered and unfolded when navigating with n/N
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search match (centered)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search match (centered)" })
+
 -- open splits to the right and below
 vim.opt.splitright = true
 vim.opt.splitbelow = true

@@ -28,6 +28,11 @@ return {
         transparent = true,
 			})
 			vim.cmd("colorscheme kanagawa-wave")
+
+			-- make search matches loud and easy to track
+			-- vim.api.nvim_set_hl(0, "Search", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
+			-- vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
+			vim.api.nvim_set_hl(0, "CurSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
 		end,
 	},
 	-- show bottom line
@@ -108,6 +113,9 @@ return {
 					lsp_doc_border = false, -- add a border to hover docs and signature help
 				},
 			})
+
+			-- colour the "[N/M]" search match counter to match the current-match highlight
+			vim.api.nvim_set_hl(0, "NoiceVirtualText", { fg = "#ed2828", bold = true })
 		end,
 	},
 }

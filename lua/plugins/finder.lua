@@ -21,7 +21,9 @@ return {
 				end,
 				desc = "Grep (Current Buffer)",
 			},
-			{
+      -- for highlighting use /
+      -- n and N to move around
+      {
 				"<leader>f/",
 				function()
 					require("fzf-lua").live_grep({
