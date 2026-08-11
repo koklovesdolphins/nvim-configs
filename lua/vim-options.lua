@@ -14,10 +14,6 @@ vim.opt.ttimeoutlen = 10
 vim.wo.number = true
 vim.opt.relativenumber = false
 
--- reserve a fixed 2-cell sign column
--- prevents the gutter from resizing when git or diagnostic signs appear
-vim.opt.signcolumn = "yes:2"
-
 -- use system clipboardd
 vim.opt.clipboard = "unnamedplus"
 
