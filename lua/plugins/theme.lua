@@ -35,6 +35,51 @@ return {
 			vim.api.nvim_set_hl(0, "CurSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
 		end,
 	},
+	-- show the file path at the top of each split (winbar breadcrumb)
+	-- <leader>; picks a symbol to go to
+  -- [; goes to the start of the current context
+	-- do not set `vim.opt.winbar` anywhere: dropbar skips a window that already has one
+	{
+		"Bekaboo/dropbar.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("dropbar").setup({
+				bar = {
+					-- keep the bar off plugin windows and floats
+					enable = function(buf, win, _)
+						if
+							not vim.api.nvim_buf_is_valid(buf)
+							or not vim.api.nvim_win_is_valid(win)
+							or vim.fn.win_gettype(win) ~= ""
+							or vim.wo[win].winbar ~= ""
+							or vim.bo[buf].buftype ~= ""
+							or vim.api.nvim_win_get_config(win).relative ~= ""
+						then
+							return false
+						end
+
+						local skip = {
+							["neo-tree"] = true,
+							["noice"] = true,
+							["lazy"] = true,
+							["mason"] = true,
+						}
+						if skip[vim.bo[buf].filetype] then
+							return false
+						end
+
+						-- a real file on disk, and not a huge one
+						return vim.bo[buf].buflisted and vim.api.nvim_buf_get_name(buf) ~= ""
+					end,
+				},
+			})
+
+			local api = require("dropbar.api")
+			vim.keymap.set("n", "<leader>;", api.pick, { desc = "Pick symbol in winbar" })
+			vim.keymap.set("n", "[;", api.goto_context_start, { desc = "Go to start of current context" })
+			vim.keymap.set("n", "];", api.select_next_context, { desc = "Select next context" })
+		end,
+	},
 	-- show bottom line
 	{
 		"nvim-lualine/lualine.nvim",
