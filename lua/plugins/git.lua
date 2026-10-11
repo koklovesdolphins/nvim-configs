@@ -27,9 +27,9 @@ return {
 				end
 
 				-- Navigation to hunks
-				map("n", "]h", function()
+				map("n", "]}", function()
 					if vim.wo.diff then
-						return "]h"
+						return "]}"
 					end
 					vim.schedule(function()
 						gs.nav_hunk("next")
@@ -37,9 +37,9 @@ return {
 					return "<Ignore>"
 				end, "Next Hunk")
 
-				map("n", "[h", function()
+				map("n", "[}", function()
 					if vim.wo.diff then
-						return "[h"
+						return "[}"
 					end
 					vim.schedule(function()
 						gs.nav_hunk("prev")
