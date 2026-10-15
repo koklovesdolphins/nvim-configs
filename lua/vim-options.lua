@@ -82,3 +82,7 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 
 -- manual reload-from-disk, in case you don't want to wait for the autocmd above
 vim.keymap.set("n", "<leader>rl", "<cmd>checktime<CR>", { desc = "Reload buffer from disk" })
+
+-- :qq is short for :qa! (quit all, discard changes)
+-- the guard expands qq only when it is the whole command line
+vim.cmd([[cnoreabbrev <expr> qq (getcmdtype() ==# ':' && getcmdline() ==# 'qq') ? 'qa!' : 'qq']])
