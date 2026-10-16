@@ -65,10 +65,9 @@ vim.keymap.set("i", ",", ",<C-g>u")
 vim.keymap.set("i", ".", ".<C-g>u")
 vim.keymap.set("i", "!", "!<C-g>u")
 vim.keymap.set("i", "?", "?<C-g>u")
-vim.keymap.set("i", "<CR>", "<CR><C-g>u") -- add undo breaks during enter
+vim.keymap.set("i", "<CR>", "<C-g>u<CR>") -- add undo breaks during enter
 
 -- some helpers
--- :messages - to see output/error messages
 
 -- actively check for file changes on disk, since `autoread` alone is passive
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
@@ -86,3 +85,6 @@ vim.keymap.set("n", "<leader>rl", "<cmd>checktime<CR>", { desc = "Reload buffer 
 -- :qq is short for :qa! (quit all, discard changes)
 -- the guard expands qq only when it is the whole command line
 vim.cmd([[cnoreabbrev <expr> qq (getcmdtype() ==# ':' && getcmdline() ==# 'qq') ? 'qa!' : 'qq']])
+
+-- :msg is short for :messages, to see output/error messages
+vim.cmd([[cnoreabbrev <expr> msg (getcmdtype() ==# ':' && getcmdline() ==# 'msg') ? 'messages' : 'msg']])

@@ -76,27 +76,22 @@ return {
 						end
 						vim.notify("Opened in new tmux window")
 					end,
-					-- rebind enter to open file but stay in neotree
-					open_keep_focus = function(state)
-						local neo_tree_win = vim.api.nvim_get_current_win()
-						local node = state.tree:get_node()
-						state.commands["open"](state)
-						if node.type == "file" and vim.api.nvim_win_is_valid(neo_tree_win) then
-							vim.api.nvim_set_current_win(neo_tree_win)
-						end
-					end,
 				},
 				window = {
 					position = "float",
 					mappings = {
 						["Y"] = "copy_path",
 						["T"] = "open_in_tmux",
-						["<cr>"] = "open_keep_focus",
-						["O"] = "open",
 					},
 				},
 			})
 			vim.keymap.set("n", "<leader>e", ":Neotree float reveal toggle<CR>", { desc = "Toggle file tree" })
+			vim.keymap.set(
+				"n",
+				"<leader>E",
+				":Neotree float git_status toggle<CR>",
+				{ desc = "Toggle git changed files" }
+			)
 			-- a - new file/folder
 			-- r - rename
 			-- y - copy file

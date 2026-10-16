@@ -4,6 +4,13 @@ return {
 		dependencies = { "nvim-mini/mini.icons" },
 		opts = {
 			-- fzf_bin = 'builtin',
+			winopts = {
+				-- Alt+shift+arrow to scroll on preview
+        preview = {
+					layout = "vertical", -- results on top, preview below
+					vertical = "down:50%",
+				},
+			},
 		},
 		keys = {
 			-- help
