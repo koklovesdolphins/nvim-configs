@@ -2,6 +2,28 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-mini/mini.icons" },
+		init = function()
+			-- ctrl-r flips the preview between below (vertical) and right (horizontal).
+			-- keymap.builtin only accepts named actions, so this needs its own map.
+			local function toggle_preview_layout()
+				local win = require("fzf-lua.win").__SELF()
+				if not win then
+					return
+				end
+				local pos = win:normalize_preview_layout().pos
+				win._preview_pos_force = (pos == "up" or pos == "down") and "right" or "down"
+				if win.winopts.split or not win.previewer_is_builtin then
+					win:SIGWINCH({ "toggle-preview-cw" })
+				end
+				win:redraw()
+			end
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "fzf",
+				callback = function(ev)
+					vim.keymap.set("t", "<C-r>", toggle_preview_layout, { buffer = ev.buf, nowait = true })
+				end,
+			})
+		end,
 		opts = {
 			-- fzf_bin = 'builtin',
 			winopts = {
