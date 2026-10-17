@@ -33,15 +33,16 @@ return {
 	--		require("mini.cursorword").setup()
 	--	end,
 	--},
-	-- split navigation in neotree (Alt+hjkl)
+	-- split navigation, all on alt+arrow
+	--   herdr: bin/vim-nav.sh forwards alt+arrow into a Vim pane
+	--   tmux:  vim-tmux-navigator's @vim_navigator_mapping_* forward it too
+	--   vim:   alt+hjkl moves between splits only, never crossing out
 	{
 		"christoomey/vim-tmux-navigator",
 		lazy = false,
 		init = function()
-			-- disable vim-tmux-navigator's own <C-hjkl>; vim-herdr-navigation's
-			-- editor/nvim.lua (below) replaces them so edge-crossing calls herdr
-			-- instead of tmux directly (herdr forwards ctrl+hjkl here when its
-			-- alt+hjkl binding detects a focused Vim/Neovim pane).
+			-- the plugin's own <C-hjkl> maps stay off; its :TmuxNavigate*
+			-- commands still load and the handler below calls them.
 			vim.g.tmux_navigator_no_mappings = 1
 		end,
 		config = function()
@@ -50,9 +51,40 @@ return {
 			vim.keymap.set("n", "<M-k>", "<cmd>wincmd k<cr>")
 			vim.keymap.set("n", "<M-l>", "<cmd>wincmd l<cr>")
 
-			local plugin_root = vim.fn.glob("~/.config/herdr/plugins/github/vim-herdr-navigation-*", false, true)[1]
-			if plugin_root and plugin_root ~= "" then
-				dofile(plugin_root .. "/editor/nvim.lua")
+			-- Move within Neovim first. If the cursor window did not change, we
+			-- sit at a split edge and must hand off to the surrounding
+			-- multiplexer. `dir` is "left"/"down"/"up"/"right".
+			local tmux_cmd = { left = "Left", down = "Down", up = "Up", right = "Right" }
+			local function cross_out(dir)
+				-- herdr first: when both are set we are nested, and herdr is outermost
+				if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
+					local herdr = vim.env.HERDR_BIN_PATH
+					if herdr == nil or herdr == "" then
+						herdr = "herdr"
+					end
+					vim.fn.system({ herdr, "pane", "focus", "--direction", dir, "--current" })
+				elseif vim.env.TMUX and vim.env.TMUX ~= "" then
+					pcall(vim.cmd, "TmuxNavigate" .. tmux_cmd[dir])
+				end
+			end
+
+			local function nav(wincmd, dir)
+				local prev = vim.api.nvim_get_current_win()
+				vim.cmd("wincmd " .. wincmd)
+				if vim.api.nvim_get_current_win() == prev then
+					cross_out(dir)
+				end
+			end
+
+			for lhs, move in pairs({
+				["<M-Left>"] = { "h", "left" },
+				["<M-Down>"] = { "j", "down" },
+				["<M-Up>"] = { "k", "up" },
+				["<M-Right>"] = { "l", "right" },
+			}) do
+				vim.keymap.set("n", lhs, function()
+					nav(move[1], move[2])
+				end, { silent = true, desc = "Navigate " .. move[2] .. " (vim/herdr/tmux)" })
 			end
 		end,
 	},
