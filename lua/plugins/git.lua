@@ -103,7 +103,13 @@ return {
 	{
 		"NeogitOrg/neogit",
 		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-		opts = { integrations = { diffview = true } },
+		opts = {
+			integrations = { diffview = true },
+			-- color diff hunks like source code instead of all-green / all-red
+			treesitter_diff_highlight = true,
+			word_diff_highlight = true,
+			graph_style = "unicode",
+		},
 		keys = {
 			{
 				"<leader>ngg",

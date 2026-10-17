@@ -33,6 +33,27 @@ return {
 			-- vim.api.nvim_set_hl(0, "Search", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
 			-- vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
 			vim.api.nvim_set_hl(0, "CurSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
+
+			-- neogit inline diffs: tint the background, keep the text readable
+			local function neogit_diff_hl()
+				local fg = "#dcd7ba"
+				local hl = {
+					NeogitDiffAdd = { fg = fg, bg = "#2b3328" },
+					NeogitDiffAddHighlight = { fg = fg, bg = "#3a462f" },
+					NeogitDiffDelete = { fg = fg, bg = "#43242b" },
+					NeogitDiffDeleteHighlight = { fg = fg, bg = "#5a2f38" },
+					NeogitDiffContext = { fg = fg, bg = "NONE" },
+					NeogitDiffContextHighlight = { fg = fg, bg = "#2a2a37" },
+					NeogitHunkHeader = { fg = "#7e9cd8", bg = "#252535" },
+					NeogitHunkHeaderHighlight = { fg = "#7e9cd8", bg = "#2a2a37", bold = true },
+				}
+				for group, opts in pairs(hl) do
+					vim.api.nvim_set_hl(0, group, opts)
+				end
+			end
+
+			neogit_diff_hl()
+			vim.api.nvim_create_autocmd("ColorScheme", { callback = neogit_diff_hl })
 		end,
 	},
 	-- show the file path at the top of each split (winbar breadcrumb)
