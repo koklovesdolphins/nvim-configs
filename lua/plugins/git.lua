@@ -3,6 +3,23 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
+			current_line_blame = true,
+			current_line_blame_opts = {
+				virt_text = true,
+				virt_text_pos = "eol",
+				delay = 300,
+			},
+			current_line_blame_formatter = function(name, blame_info)
+				local summary = blame_info.summary or ""
+				if #summary > 40 then
+					summary = summary:sub(1, 40) .. "..."
+				end
+				local author = blame_info.author == name and "You" or blame_info.author
+				local when = require("gitsigns.util").get_relative_time(tonumber(blame_info.author_time))
+				return {
+					{ "      " .. author .. ", " .. when .. " - " .. summary, "GitSignsCurrentLineBlame" },
+				}
+			end,
 			preview_config = { border = "rounded" },
 			signs = {
 				add          = { text = "▎" },
@@ -54,6 +71,7 @@ return {
 
 				-- git lens
 				map("n", "<leader>glb", gs.blame_line, "Blame Line")
+				map("n", "<leader>gtb", gs.toggle_current_line_blame, "Toggle Line Blame")
 			end,
 		},
 	},
@@ -83,19 +101,22 @@ return {
 	-- 3. Scrollbar with git hunk markers (VSCode-style right-side overview)
 	{
 		"petertriho/nvim-scrollbar",
+		branch = "refactor/v2", -- remove after 2026-11-16 when v2 lands on main
 		dependencies = { "lewis6991/gitsigns.nvim" },
 		event = "BufReadPost",
 		config = function()
 			require("scrollbar").setup({
-				show_in_active_only = true,
-				handle = { highlight = "Visual" },
+				scrollbar = {
+					visibility = "active",
+					thumb = { highlight = "Visual" },
+				},
+				providers = { gitsigns = true },
 				marks = {
 					GitAdd    = { text = "▎" },
 					GitChange = { text = "▎" },
 					GitDelete = { text = "▸" },
 				},
 			})
-			require("scrollbar.handlers.gitsigns").setup()
 		end,
 	},
 
