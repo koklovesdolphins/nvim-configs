@@ -105,12 +105,72 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		config = function()
+			-- bold mode block, from the kanagawa lualine theme
+			vim.g.kanagawa_lualine_bold = true
+
+			-- the name that git records as the author of your own commits
+			vim.system({ "git", "config", "user.name" }, { text = true }, function(out)
+				vim.g.lualine_git_user = vim.trim(out.stdout or "")
+			end)
+
+			-- `git log` is too slow for every redraw, so cache the result per buffer
+			local function cache_last_commit(buf)
+				local name = vim.api.nvim_buf_get_name(buf)
+				if name == "" or vim.bo[buf].buftype ~= "" then
+					return
+				end
+				vim.system({
+					"git",
+					"-C",
+					vim.fn.fnamemodify(name, ":h"),
+					"log",
+					"-1",
+					"--format=%an\t%ar",
+					"--",
+					name,
+				}, { text = true }, function(out)
+					local author, when = vim.trim(out.stdout or ""):match("^(.-)\t(.*)$")
+					local line = ""
+					if author then
+						-- match the gitsigns blame line, which says "You"
+						if author == vim.g.lualine_git_user then
+							author = "You"
+						end
+						line = author .. ", " .. when
+					end
+					vim.schedule(function()
+						if not vim.api.nvim_buf_is_valid(buf) then
+							return
+						end
+						vim.b[buf].lualine_last_commit = line ~= "" and line or nil
+						vim.cmd("redrawstatus")
+					end)
+				end)
+			end
+
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+				group = vim.api.nvim_create_augroup("LualineLastCommit", { clear = true }),
+				callback = function(args)
+					cache_last_commit(args.buf)
+				end,
+			})
 			require("lualine").setup({
 				options = {
-					theme = "wombat",
+					theme = "kanagawa",
+					section_separators = { left = "", right = "" },
+					component_separators = { left = "", right = "" },
 				},
 				sections = {
 					lualine_c = {
+						{
+							-- current working directory, shortened with ~
+							function()
+								return " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+							end,
+							-- carpYellow reads clearly on the section background
+							color = { fg = "#c0a36e", gui = "bold" },
+							separator = "│",
+						},
 						{
 							"filename",
 							file_status = true, -- Displays file status (readonly, modified)
@@ -120,9 +180,57 @@ return {
 							symbols = {
 								modified = "[+]",
 								readonly = "[-]",
-								unnamed = "[No Name]",
+								unnamed = "",
 								newfile = "[New]",
 							},
+						},
+						{
+							-- errors, warnings and hints from the language server
+							"diagnostics",
+							sources = { "nvim_lsp" },
+							symbols = { error = " ", warn = " ", info = " ", hint = " " },
+						},
+					},
+					lualine_x = {
+						{
+							-- size of the visual selection: chars, or lines x chars
+							function()
+								local mode = vim.fn.mode()
+								if mode ~= "v" and mode ~= "V" and mode ~= "\22" then
+									return ""
+								end
+								local s_line, s_col = vim.fn.line("v"), vim.fn.col("v")
+								local e_line, e_col = vim.fn.line("."), vim.fn.col(".")
+								local lines = math.abs(e_line - s_line) + 1
+								if mode == "V" then
+									return lines .. " lines"
+								end
+								if mode == "\22" then
+									return lines .. "x" .. (math.abs(e_col - s_col) + 1)
+								end
+								return vim.fn.wordcount().visual_chars .. " chars"
+							end,
+							color = { fg = "#ff9e3b", gui = "bold" },
+						},
+						{
+							-- last commit that touched this file, from the cache below
+							function()
+								return vim.b.lualine_last_commit or ""
+							end,
+						},
+						"filetype",
+					},
+					lualine_y = {
+						-- compact: the defaults pad these to a fixed width
+						{ "%p%%", padding = { left = 1, right = 0 } },
+						{ "%l:%c", padding = { left = 1, right = 1 } },
+					},
+					lualine_z = {
+						{
+							-- clock, 24 hour
+							function()
+								return " " .. os.date("%H:%M")
+							end,
 						},
 					},
 				},

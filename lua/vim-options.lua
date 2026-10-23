@@ -88,3 +88,7 @@ vim.cmd([[cnoreabbrev <expr> qq (getcmdtype() ==# ':' && getcmdline() ==# 'qq') 
 
 -- :msg is short for :messages, to see output/error messages
 vim.cmd([[cnoreabbrev <expr> msg (getcmdtype() ==# ':' && getcmdline() ==# 'msg') ? 'messages' : 'msg']])
+
+-- show the current directory in the terminal window title
+vim.opt.title = true
+vim.opt.titlestring = "%{fnamemodify(getcwd(), ':~')} - nvim"
