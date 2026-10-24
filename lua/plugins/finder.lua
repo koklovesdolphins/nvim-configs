@@ -1,3 +1,8 @@
+-- fzf-lua replaces rg_opts wholesale, so every copy must keep --max-columns and
+-- the trailing -e. Without -e, a query that starts with - becomes an rg flag.
+local RG_OPTS = "--hidden -g '!.git' -g '!.jj' --column --line-number "
+	.. "--no-heading --color=always --smart-case --max-columns=4096 -e"
+
 return {
 	{
 		"ibhagwan/fzf-lua",
@@ -33,6 +38,8 @@ return {
 					vertical = "down:50%",
 				},
 			},
+			-- applies to grep_cword, grep_visual and grep_curbuf
+			grep = { rg_opts = RG_OPTS },
 		},
 		keys = {
 			-- help
@@ -57,7 +64,8 @@ return {
 				function()
 					require("fzf-lua").live_grep({
 						fzf_opts = { ["--no-sort"] = "" },
-						rg_opts = "--sort path --column --line-number --no-heading --color=always --smart-case",
+						-- --sort path disables parallel search, so keep it on this map only
+						rg_opts = "--sort path " .. RG_OPTS,
 					})
 				end,
 				desc = "Grep (Current directory)",
