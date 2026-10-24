@@ -29,6 +29,11 @@ return {
 			})
 			vim.cmd("colorscheme kanagawa-wave")
 
+			-- markdown non-preview: colour emphasis, strong, and inline code
+			vim.api.nvim_set_hl(0, "@markup.italic.markdown_inline", { fg = "#957fb8", italic = true }) -- purple _italic_
+			vim.api.nvim_set_hl(0, "@markup.strong.markdown_inline", { fg = "#98bb6c", bold = true }) -- green **bold**
+			vim.api.nvim_set_hl(0, "@markup.raw.markdown_inline", { fg = "#ffa066" }) -- orange `code`
+
 			-- make search matches loud and easy to track
 			-- vim.api.nvim_set_hl(0, "Search", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
 			-- vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ff9e3b", fg = "#1f1f28", bold = true })
