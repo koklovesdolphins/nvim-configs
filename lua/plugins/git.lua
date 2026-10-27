@@ -8,6 +8,7 @@ return {
 				virt_text = true,
 				virt_text_pos = "eol",
 				delay = 300,
+				virt_text_priority = 5000, -- above noice (4096) so the search count shows first
 			},
 			current_line_blame_formatter = function(name, blame_info)
 				local summary = blame_info.summary or ""

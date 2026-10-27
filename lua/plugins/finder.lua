@@ -71,7 +71,7 @@ return {
 				desc = "Grep (Current directory)",
 			},
 			{ "<leader>fw", "<CMD>FzfLua grep_cword<CR>", desc = "Grep word under cursor (Current directory)" },
-			{ "<leader>fv", "<CMD>FzfLua grep_visual<CR>", desc = "Grep Selection (Current directory)", mode = "v" },
+			{ "<leader>fw", "<CMD>FzfLua grep_visual<CR>", desc = "Grep Selection (Current directory)", mode = "v" },
 
 			-- find files
 			{ "<leader>ff", "<CMD>FzfLua files<CR>", desc = "Files (Root Dir)" },
